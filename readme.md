@@ -13,6 +13,6 @@ Install using composer. Package name is ```filipac/ip```.
 Add this to **composer.json**
 ```json
 "require": {
-        "filipac/ip": "~1.0"
-    }
+    "filipac/ip": "~1.0"
+}
 ```
