@@ -2,31 +2,51 @@
 namespace Filipac;
 
 class Ip {
-  static public function get() {
-        return self::_checks_ip();
-  }
+	/**
+	 * @var string Cached IP
+	 */
+	private static $ip = null;
 
-  private static function _checks_ip() {
-        if($_SERVER) {
-            if( isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ) {
-                return $_SERVER["HTTP_X_FORWARDED_FOR"];
-            } else if( isset($_SERVER["HTTP_CLIENT_IP"]) ) {
-                return $_SERVER["HTTP_CLIENT_IP"];
-            } else if( isset($_SERVER["REMOTE_ADDR"]) ) {
-                return $_SERVER["REMOTE_ADDR"];
-            } else {
-                return 'Error';
-            }
-        } else {
-            if( getenv( 'HTTP_X_FORWARDED_FOR' ) ) {
-                return getenv( 'HTTP_X_FORWARDED_FOR' );
-            } else if( getenv( 'HTTP_CLIENT_IP' ) ) {
-                return getenv( 'HTTP_CLIENT_IP' );
-            } else if( getenv( 'REMOTE_ADDR' ) ) {
-                return getenv( 'REMOTE_ADDR' );
-            } else {
-                return 'Error';
-            }
-        }
-    }
+	/**
+	 * Retrieve the current client's IP
+	 *
+	 * @return string
+	 */
+	static public function get() {
+		if (!isset(self::$ip)) {
+			self::$ip = self::_checks_ip();
+		}
+		return self::$ip;
+	}
+
+	/**
+	 * Try different methods to load the client IP
+	 * - Forwarded header
+	 * - HTTP_CLIENT_IP
+	 * - REMOTE_ADDR
+	 *
+	 * @return string|false IP
+	 */
+	private static function _checks_ip() {
+		if(self::_get('HTTP_X_FORWARDED_FOR')) {
+			return self::_get('HTTP_X_FORWARDED_FOR');
+		} else if(self::_get('HTTP_CLIENT_IP')) {
+			return self::_get('HTTP_CLIENT_IP');
+		} else if(self::_get('REMOTE_ADDR')) {
+			return self::_get('REMOTE_ADDR');
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param $name Name of the Variable to check
+	 * @return string Content of either $_SERVER[$name] or getenv($name)
+	 */
+	private static function _get($name) {
+		if(isset($_SERVER)) {
+			return $_SERVER[$name];
+		}
+		return getenv($name);
+	}
 }
