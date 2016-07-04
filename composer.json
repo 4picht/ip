@@ -1,10 +1,14 @@
 {
-    "name": "filipac/ip",
+    "name": "4picht/ip",
     "description": "Get the IP in a quick way",
     "authors": [
         {
             "name": "Filip Pacurar",
             "email": "hello@filipac.net"
+        },
+        {
+            "name": "Julian Picht",
+            "email": "julian.picht@4com.de"
         }
     ],
     "minimum-stability": "dev",
