@@ -20,6 +20,15 @@ class Ip {
 	}
 
 	/**
+	 * (Re-)Initialize the class
+	 *
+	 * @return string
+	 */
+	static public function init() {
+		self::$ip = self::_checks_ip();
+	}
+
+	/**
 	 * Try different methods to load the client IP
 	 * - Forwarded header
 	 * - HTTP_CLIENT_IP
