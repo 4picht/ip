@@ -53,7 +53,7 @@ class Ip {
 	 * @return string Content of either $_SERVER[$name] or getenv($name)
 	 */
 	private static function _get($name) {
-		if(isset($_SERVER)) {
+		if(isset($_SERVER[$name])) {
 			return $_SERVER[$name];
 		}
 		return getenv($name);
